@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title><%= title %></title>
+<meta charset="utf-8">
+<meta http equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+<style>
+html {
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 62.5%;
+}
+body {
+  font-family:"游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic";
+  font-size: 1.4em;
+  height:100%;
+  width: 100%;
+  background-color:rgba(255,255,255,0.5);
+  padding-top: 15px;
+  padding-left:5px;
+  margin: 0 auto;
+}
+main{
+  margin-top: 0;
+  padding-top: 0;
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+}
+ul{
+  list-style-type: none;
+  padding-left:0px;
+  width: 100%;
+  margin: 0 auto;
+}
+li{
+  padding-left:0px;
+}
+.icons:hover{
+  cursor: pointer;
+}
+h1 {
+  font-size: 4.0rem;
+}
+</style>
+</head>
+<body>
+<header style="position:fixed; z-index:2;">
+  <a href="/"><button class="btn btn-default"><i class="fa fa-circle-o-notch icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/search_user"><button class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-address-book-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/search_books"><button class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-book icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/settings"><button class="btn btn-default"><i class="fa fa-cog icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+</header>
+<main style="margin-top:40px;">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-2 col-md-1 col-sm-1">
+        <img src="<%= userInfo.image %>" width="50" heigth="50" class="img-rounded">
+      </div>
+      <div class="col-xs-10 col-md-11 col-sm-11">
+        <h1><%= title %></h1>
+        <p><%= userInfo.user_id %></p>
+        <p id="follow_or_not" onclick="asyncFollow(this, '<%= userInfo.user_id %>')" value="<%= userInfo.user_id %>"></p>
+      <% if(userInfo.introduction != null){ %>
+        <p><%= userInfo.introduction %></p>
+      <% } %>
+      <a href="/following/<%= userInfo.user_id %>"><button class="btn btn-default">フォロー: <span id="following_num" value="<%= userInfo.user_id %>"></span></button></a>
+      <a href="/follower/<%= userInfo.user_id %>"><button class="btn btn-default">フォロワー: <span id="follower_num" value="<%= userInfo.user_id %>"></span></button></a>
+      <div style="margin-top:10px;">
+        <button class="btn btn-default" onclick="asyncSend(this, 'registered_books'); makeActive(this);" value="<%= userInfo.user_id %>" id="registered_books">読んだ本: <span id="readbooks_num"></span></button>
+        <button class="btn btn-default" onclick="asyncSend(this, 'registered_wantbooks'); makeActive(this);" value="<%= userInfo.user_id %>" id="registered_wantbooks">読みたい本: <span id="wantreadbooks_num"></span></button>
+      </div>
+      <form id="form"></form>
+      </div>
+    </div>
+  <div id="timeline" style="margin-top:20px;">
+    <ul id="bookList">
+    </ul>
+    <p id="more" onclick="more()" value="0"><button class="btn btn-default btn-block btn-lg">もっと読む</button></p>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <img src="/images/apps/Sophiliar-logo.png">
+    </div>
+  </div>
+</div>
+</main>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+</script>
+<script language="javascript" type="text/javascript" src="/javascripts/http.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/registered_books.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/follow.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/fixDate.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/comment_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/read_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/want_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/review_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/wantread_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/more_userdata.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/register_want.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/user_read_want_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/user_follow_follower_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/makeActive.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/sort.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/protect.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/follow_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/deny.js"></script>
+<script>
+$(function(){var a=document.getElementById("follow_or_not"),b=$(a).attr("value");asyncFollowOrNot(a,b)}),$(function(){var a=document.getElementById("registered_books");makeActive(a)}),$(function(){document.getElementById("form");asyncConfirmSort()}),$(function(){var a=document.getElementById("registered_books");asyncSend(a,"registered_books")}),$(function(){var a=document.getElementById("following_num"),b=$(a).attr("value");asyncFollowing_num(a,b)}),$(function(){var a=document.getElementById("follower_num"),b=$(a).attr("value");asyncFollower_num(a,b)}),$(function(){var a=document.getElementById("registered_books"),b=$(a).attr("value");num_of_read(b)}),$(function(){var a=document.getElementById("registered_wantbooks"),b=$(a).attr("value");num_of_wantread(b)}),$(function(){checkURL()}),$(function(){$("a.disable").click(function(){return!1})});
+</script>
+</body>
+</html>

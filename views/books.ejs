@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title><%= title %></title>
+<meta charset="utf-8">
+<meta http equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+<style>
+html {
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 62.5%;
+}
+body {
+  font-family:"游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic";
+  font-size: 1.4em;
+  height:100%;
+  width: 100%;
+  background-color:rgba(255,255,255,0.5);
+  padding-top: 15px;
+  padding-left:5px;
+  margin: 0 auto;
+}
+main{
+  margin-top: 0;
+  padding-top: 0;
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+}
+ul{
+  list-style-type: none;
+  padding-left:0px;
+  width: 100%;
+  margin: 0 auto;
+}
+li{
+  padding-left:0px;
+}
+.icons:hover{
+  cursor: pointer;
+}
+h1 {
+  font-size: 3.0rem;
+}
+</style>
+</head>
+<body>
+<header style="position:fixed; z-index:2;">
+  <a href="/"><button class="btn btn-default"><i class="fa fa-circle-o-notch icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/search_user"><button class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-address-book-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/search_books"><button class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-book icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/userdata"><button class="btn btn-default"><i class="fa fa-user-circle-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+</header>
+<main style="margin-top:45px;">
+<div class="container-fluid">
+  <h1><%= title %></h1>
+  <div class="row" style="margin-top:20px;">
+    <div class="col-xs-4 col-md-3 col-sm-3">
+      <img src="http://images-jp.amazon.com/images/P/'<%= bookList.asin %>.09.LZZZZZZZ.jpg" style="width:100%;">
+    </div>
+    <div class="col-md-1 col-sm-1">
+    </div>
+    <div class="col-xs-8 col-md-8 col-sm-8">
+      <div class="row">
+        <div class="col-md-2 col-sm-2">
+          <h3><%= average %> <small>/5</small></h3>
+        </div>
+        <div class="col-md-10 col-sm-10" style="margin-top:25px;">
+          <a href="/author/<%= bookList.author_name %>"><p><%= bookList.author_name %></p></a>
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px;">
+        <div class="col-xs-4 col-md-3 col-sm-3">
+          <a href="/register_book/<%= bookList.asin %>"><p id="register_book" value="<%= bookList.asin %>"></p></a>
+          <p id="number_of_review" value="<%= bookList.asin %>"></p>
+        </div>
+        <div class="col-xs-4 col-md-3 col-sm-3">
+          <p id="register_wantbook" onclick="asyncWant(this)" value="<%= bookList.asin %>"></p>
+          <p id="number_of_wantread" value="<%= bookList.asin %>"></p>
+        </div>
+        <div class="col-xs-4 col-md-6 col-sm-6">
+          <button class="btn btn-default"><a href="https://www.amazon.co.jp/<%= bookList.book_name %>/dp/<%= bookList.asin %>%3FSubscriptionId%3DAKIAIZCCZT5YEEPPJHHQ%26tag%3Dassocmimaki06-22%26linkCode%3Dxm2%26camp%3D2025%26creative%3D165953%26creativeASIN%3D<%= bookList.asin %>" target="_blank">購入</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="timeline">
+　<% if(typeof evaluateList != 'undefined'){ %>
+  <ul>
+    <% evaluateList.forEach(function(evaluate){ %>
+      <li style="margin-top:30px;">
+        <div class="row">
+          <div class="col-xs-2 col-md-1 col-sm-1">
+            <img src="<%= evaluate.image %>" width="40" heigth="40" class="img-rounded">
+          </div>
+          <div class="col-md-1 col-sm-1">
+          </div>
+          <div class="col-xs-10 col-md-10 col-sm-10">
+            <h4><a href="/userdata/<%= evaluate.user_id %>"><%= evaluate.user_name %></a></h4>
+            <h4>おすすめ度: <%= evaluate.point %></h4>
+            <p><%= evaluate.comment %></p>
+            <p><%= evaluate.registered_at %></p>
+            <div class="row">
+              <p onclick="asyncIine(this, <%= evaluate.register_number %>)" class="register_iine col-xs-2" value="<%= evaluate.register_number %>"></p>
+              <p class="number_of_iine col-xs-2" value="<%= evaluate.register_number %>" style="margin-top:5px; font-size:2.0rem;"></p>
+              <p class="write_comment col-xs-2"><a href="/write_comment/<%= evaluate.register_number %>"><i class="fa fa-comment-o icons" style="font-size:3.0rem;" aria-hidden="true"></i></a></p>
+              <p class="number_of_comment col-xs-2" value="<%= evaluate.register_number %>" style="margin-top:5px; font-size:2.0rem"></p>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% }); %>
+  </ul>
+    <p id="more" onclick="more()" value="0" class="<%= bookList.asin %>"><button class="btn btn-default btn-block btn-lg">もっと読む</button></p>
+  <% } %>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <img src="/images/apps/Sophiliar-logo.png">
+    </div>
+  </div>
+</div>
+</main>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+</script>
+<script language="javascript" type="text/javascript" src="/javascripts/http.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/protect.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/fixDate.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/comment_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/read_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/want_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/review_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/wantread_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/more_books.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/register_want.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/deny.js"></script>
+<script>
+function update_number_of_wantread(){var a=document.getElementById("number_of_wantread"),b=$(number_of_wantread).attr("value");asyncNumOfWantRead(a,b)}$(function(){asyncPrepareCommentNumber()}),$(function(){asyncPrepareIineNumber()}),$(function(){asyncPrepareIineOrNot()}),$(function(){var a=document.getElementById("register_book"),b=$(a).attr("value");asyncReadOrNot(a,b)}),$(function(){var a=document.getElementById("register_wantbook"),b=$(a).attr("value");asyncWantOrNot(a,b)}),$(function(){update_number_of_wantread();var a=document.getElementById("number_of_review"),b=$(number_of_review).attr("value");asyncNumOfReview(a,b)}),$(function(){checkURL()}),$(function(){$("a.disable").click(function(){return!1})});
+</script>
+</body>
+</html>

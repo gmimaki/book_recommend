@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title><%= title %></title>
+<meta charset="utf-8">
+<meta http equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+</head>
+<style>
+html {
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 62.5%;
+}
+body {
+  font-family:"游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic";
+  font-size: 1.4em;
+  height:100%;
+  width: 100%;
+  background-color:rgba(255,255,255,0.5);
+  padding-top: 15px;
+  padding-left:5px;
+  margin: 0 auto;
+}
+main{
+  margin-top: 0;
+  padding-top: 0;
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+}
+ul{
+  list-style-type: none;
+  padding-left:0px;
+  width: 100%;
+  margin: 0 auto;
+}
+li{
+  padding-left:0px;
+}
+.icons:hover{
+  cursor: pointer;
+}
+h1 {
+  font-size: 4.5rem;
+}
+</style>
+<body>
+<header>
+  <a href="/"><button class="btn btn-default"><i class="fa fa-circle-o-notch icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/search_user"><button class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-address-book-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/search_books"><button class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-book icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  <a href="/userdata"><button class="btn btn-default"><i class="fa fa-user-circle-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+</header>
+<main>
+  <div class="container-fluid">
+  <h1><%= title %></h1>
+  <ul>
+    <li><a href="/show_info" style="color:black;"><button type="button" class="btn btn-default btn-lg btn-block">現在の登録内容を確認</button></a></li>
+    <li><a href="/set_image" style="color:black;"><button type="button" class="btn btn-default btn-lg btn-block">プロフィール画像を設定する</button></a></li>
+    <li><a href="/set_introduction" style="color:black;"><button type="button" class="btn btn-default btn-lg btn-block">プロフィール文を設定する</button></a></li>
+    <li><a href="/set_user_name" style="color:black;"><button type="button" class="btn btn-default btn-lg btn-block">ユーザー名を変更する</button></a></li>
+    <li><a href="/set_password" style="color:black;"><button type="button" class="btn btn-default btn-lg btn-block">パスワードを変更する</button></a></li>
+    <li><a href="/logout" style="color:black;"><button type="button" class="btn btn-default btn-lg btn-block">ログアウトする</button></a></li>
+    <li><a href="/exit" style="color:black;"><button type="button" class="btn btn-default btn-lg btn-block">退会する</button></a></li>
+  </ul>
+  <div class="row">
+    <div class="col-xs-12">
+      <img src="/images/apps/Sophiliar-logo.png">
+    </div>
+  </div>
+  </div>
+</main>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+</script>
+<script language="javascript" type="text/javascript" src="/javascripts/protect.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/deny.js"></script>
+<script>
+$(function(){checkURL()}),$(function(){$("a.disable").click(function(){return!1})});
+</script>
+</body>
+</html>

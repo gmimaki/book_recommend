@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title><%= title %></title>
+<meta charset="utf-8">
+<meta http equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css'>
+<style>
+html {
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 62.5%;
+}
+body {
+  font-family:"游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic";
+  font-size: 1.4em;
+  height:100%;
+  width: 100%;
+  background-color:rgba(255,255,255,0.5);
+  padding-top: 15px;
+  padding-left:5px;
+  margin: 0 auto;
+}
+main{
+  margin-top: 0;
+  padding-top: 0;
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+}
+ul{
+  list-style-type: none;
+  padding-left:0px;
+  width: 100%;
+  margin: 0 auto;
+}
+li{
+  padding-left:0px;
+}
+.icons:hover{
+  cursor: pointer;
+}
+h1 {
+  font-size: 4.0rem;
+}
+#form {
+  margin-top:20px;
+}
+</style>
+</head>
+<body>
+<div id="main">
+  <div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 col-sm-5 col-md-5">
+	    <h1>Sophiliar</h1>
+    </div>
+    <div class="col-sm-1 col-md-1">
+    </div>
+    <div clss="col-xs-12 col-md-6 col-sm-6">
+      <h2><%= title %></h2>
+    </div>
+  </div>
+  <% if(typeof message != 'undefined'){ %>
+    <p><%= message %></p>
+  <% } %>
+  <form action="/register_user" method="post" autocomplete="off" id="form" class="form-horizontal" name="form">
+    <p style="color:red;">ユーザーIDとパスワードはログイン時に必要となりますので、覚えておくようお願い致します。</p>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">ユーザー名(3~20字)</label>
+      <div class="col-sm-10">
+        <input type="text"  id="register_user_name" class="form-control" placeholder="ユーザー名(3~20文字)" name="user_name" maxlength="16" minlength="3" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">ユーザーID(4~20字 半角英数と_)</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="regist_user_id" placeholder="ユーザーID(4~20文字 半角英数と_)" name="user_id" maxlength="20" minlength="4" pattern="^[0-9A-Za-z_]+$" required>
+      </div>
+    </div>
+    <p id="check_user_id"></p>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">【確認用】ユーザーIDを再度ご入力ください</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" placeholder="【確認用】ユーザーIDを再度ご入力ください" name="user_id_confirm" maxlength="20" minlength="4" pattern="^[0-9A-Za-z_]+$" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">パスワード(8~20文字 半角英数と_)</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" placeholder="パスワード(8~20文字 半角英数と_)" name="password" maxlength="20" minlength="8" pattern="^[0-9A-Za-z_]+$" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">【確認用】パスワードを再度ご入力ください</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" placeholder="【確認用】パスワードを再度ご入力ください" name="password_confirm" maxlength="20" minlength="8" pattern="^[0-9A-Za-z_]+$" required>
+      </div>
+    </div>
+    <div class="form-group">
+  		<div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-default btn-block">登録</button>
+      </div>
+    </div>
+  </form>
+  <a href="/" class="btn btn-lg btn-default">Top</a>
+  <div class="row">
+    <div class="col-xs-12">
+      <img src="/images/apps/Sophiliar-logo.png">
+    </div>
+  </div>
+</div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/protect.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/http.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/check_user_id.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/deny.js"></script>
+<script>
+$(function(){document.form.user_name.focus()}),$(function(){$("#regist_user_id").on("keyup",function(){var a=$(this).val();check_user_id(a)})}),$(function(){checkURL()}),$(function(){$("a.disable").click(function(){return!1})});
+</script>
+</body>
+</html>

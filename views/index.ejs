@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title><%= title %></title>
+<meta charset="utf-8">
+<meta http equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0 user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<meta name="google-site-verification" content="gthPvc0jDNZ_imqDbBW-wWgyiqKaxIrazXSldb-aqlk" />
+<meta name="Identifier-URL" content="https://sophiliar.herokuapp.com/" />
+<meta content="Sophiliar" name="title">
+<meta content="Sophiliarはユーザーがおすすめの本を紹介し合い人々がより読書を楽しみ叡智を共有することを目的としたWebサービスです。" name="description">
+<link rel='stylesheet' href='/stylesheets/bootstrap.min.css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+<style>
+html {
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 62.5%;
+}
+body {
+  font-family:"游ゴシック", "Yu Gothic", "游ゴシック体", "YuGothic";
+  font-size: 1.4em;
+  height:100%;
+  width: 100%;
+  background-color:rgba(255,255,255,0.5);
+  padding-top: 15px;
+  padding-left:8px;
+  margin: 0 auto;
+}
+main{
+  margin-top: 0;
+  padding-top: 0;
+  height:100%;
+  width: 100%;
+  margin: 0 auto;
+}
+ul{
+  list-style-type: none;
+  padding-left:0px;
+  width: 100%;
+  margin: 0 auto;
+}
+li{
+  padding-left:0px;
+}
+.icons:hover{
+  cursor: pointer;
+}
+h1 {
+  font-size: 4.5rem;
+}
+#pre_search_books{
+  margin-top:0px;
+}
+#pre_search_user{
+  margin-top:0px;
+}
+.table{
+  border:solid 2px;
+  margin-top: 0;
+  z-index:2;
+  background-color:white;
+  position: absolute;
+  cursor:pointer;
+}
+#timeline{
+  margin-right: auto;
+  margin-left: auto;
+  padding:0;
+}
+</style>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-9594207916964521",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+<body>
+  <header style="position:fixed; z-index:2;">
+    <button id="search_user_focus" class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-address-book-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button>
+    <button id="search_books_focus" class="btn btn-default"><i class="fa fa-search icons" style="font-size:2.0rem" aria-hidden="true"></i><i class="fa fa-book icons" style="font-size:2.0rem" aria-hidden="true"></i></button>
+    <a href="/userdata"><button class="btn btn-default"><i class="fa fa-user-circle-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+    <a href="/bells" id="bells"><button class="btn btn-default"><i class="fa fa-bell-o icons" style="font-size:2.0rem" aria-hidden="true"></i></button></a>
+  </header>
+  <main>
+<div class="container-fluid" style="margin-top:20px;">
+  <div class="row" style="margin-top:10px;">
+    <h1 class="col-xs-12 col-md-4 col-sm-12" style="margin-bottom:30px;">Sophiliar</h1>
+    <div class="colxs-12 col-md-4 col-sm-6" style="margin-top:35px;">
+      <div class="form" style="display:inline;">
+        <form action="/search_user" method="post" autocomplete="off" name="user_form">
+          <input type="text" name="searchuser" placeholder="ユーザー名・ユーザーID" maxlength="20" size="24" id="user_keyword">
+          <input type="submit" value="検索" class="btn btn-default btn-sm">
+        </form>
+      </div>
+      <p id="pre_search_user"></p>
+    </div>
+    <div class="col-xs-12 col-md-4 col-sm-6" style="margin-top:35px;">
+      <div class="form" style="display:inline;">
+        <form action="/search_books" method="post" autocomplete="off" name="book_form">
+          <input type="text"  name="search" placeholder="書名・著者名" maxlength="150" size="24" id="books_keyword">
+          <input type="submit" value="検索" class="btn btn-default btn-sm">
+        </form>
+      </div>
+      <p id="pre_search_books"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div id="timeline" class="col-xs-12 col-md-12">
+      <% if(typeof btns != 'undefined'){ %>
+        <h3 style="margin-left:5px;">Sophiliarは、ユーザーがおすすめの本を共有し合い、読書を楽しみ叡智を共有するためのサイトです。</h3>
+        <div style="margin: 0 auto; text-align: center; margin-top:30px;">
+          <a href="/register_user"><button class="btn btn-default btn-lg">会員登録</button></a>
+          <a href="/login"><button class="btn btn-default btn-lg">ログイン</button></a>
+        </div>
+      <% } %>
+      <% if(typeof Timeline != 'undefined'){ %>
+        <ul>
+        <% Timeline.forEach(function(timeline){ %>
+          <% if(timeline.point != null){ %>
+            <li style="margin-top:15px; margin-bottom:30px;">
+              <div class="row">
+                <div class="col-xs-3 col-md-1 col-sm-1">
+                  <a href="/userdata/<%= timeline.follow_id %>"><img src="<%= timeline.image %>" width="50" heigth="50" class="img-rounded"></a>
+                </div>
+                <div class="col-xs-9 col-md-3 col-sm-3">
+                  <h3><a href="/userdata/<%= timeline.follow_id %>"><%= timeline.user_name %></a><h3>
+                </div>
+                <div class="col-xs-12 col-md-8 col-sm-8" style="margin-top:5;">
+                  <h3><a href="/books/<%= timeline.asin %>"><%= timeline.book_name %></a></h3>
+                  <h4><a href="/author/<%= timeline.author_name %>"><%= timeline.author_name %></a></h4>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-4 col-md-3 col-sm-3">
+                  <a href="/books/<%= timeline.asin %>"><img src="http://images-jp.amazon.com/images/P/<%= timeline.asin %>.09.LZZZZZZZ.jpg" style="width:100%;"></a>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <p><a class="register_book" value="<%= timeline.asin %>" href="/register_book/<%= timeline.asin %>"></a></p>
+                      <p class="num_of_review" value="<%= timeline.asin %>"></p>
+                    </div>
+                    <div class="col-xs-6">
+                      <p class="register_wantbook" value="<%= timeline.asin %>" onclick="asyncWant(this)"></p>
+                      <p class="num_of_wantread" value="<%= timeline.asin %>"></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1 col-sm-1">
+                </div>
+                <div class="col-xs-8 col-md-6 col-sm-6">
+                  <h4>おすすめ度: <%= timeline.point %> <small>/5</small></h4>
+                  <p><%= timeline.comment %></p>
+                  <p><%= timeline.registered_at %></p>
+                  <div class="comment">
+                    <div class="row">
+                      <p onclick="asyncIine(this, <%= timeline.register_number %>)" class="register_iine col-xs-3" value="<%= timeline.register_number %>"></p>
+                      <p class="number_of_iine col-xs-3" style="font-size:2.0rem;" value="<%= timeline.register_number %>"></p>
+                      <a class="col-xs-3 comment_icon"  href="/write_comment/<%= timeline.register_number %>"><i class="fa fa-comment-o icons" style="font-size:3.0rem;" aria-hidden="true"></i></a>
+                      <p class="number_of_comment col-xs-3" style="font-size:2.0rem;" value="<%= timeline.register_number %>"></p>
+                    </div>
+                    <p class="comments" value="<%= timeline.register_number %>" style="margin-top:10px;"></p>
+                    <form class="post_comment" method="post" value="<%= timeline.register_number %>">
+                      <input type="text" class="comment_text" placeholder="コメントする" name="comment" style="width:65%;" autocomplete="off">
+                      <button type="submit" class="btn btn-default btn-sm">送信</button>
+                    </form>
+                  </div>
+                </div>
+                <div class="col-sm-2 co-md-2 hidden-xs">
+                  <a href="https://px.a8.net/svt/ejp?a8mat=2TEDV0+CKHHAY+38M2+67C4H" target="_blank" rel="nofollow">
+<img border="0" width="125" height="125" alt="" src="https://www26.a8.net/svt/bgt?aid=170312364760&wid=002&eno=01&mid=s00000015113001042000&mc=1"></a>
+<img border="0" width="1" height="1" src="https://www13.a8.net/0.gif?a8mat=2TEDV0+CKHHAY+38M2+67C4H" alt="">
+                </div>
+              </div>
+            </li>
+          <% } else {%>
+            <li style="margin-top:15px; margin-bottom:30px;">
+              <div class="row">
+                <div class="col-xs-3 col-md-1 col-sm-1">
+                  <a href="/userdata/<%= timeline.follow_id %>"><img src="<%= timeline.image %>" width="50" height="50" class="img-rounded"></a>
+                </div>
+                <div class="col-xs-9 col-md-3 col-sm-3">
+                  <h4><a href="/userdata/<%= timeline.follow_id %>"><%= timeline.user_name %></a></h4>
+                </div>
+              </div>
+              <h4><a href="/books/<%= timeline.asin %>"><%= timeline.book_name %></a> を読みたい本に登録</h4>
+              <h5><a href="/author/<%= timeline.author_name %>"><%= timeline.author_name %></a></h5>
+              <h6><%= timeline.registered_at %></h6>
+            </li>
+          <% } %>
+        <% }); %>
+        </ul>
+        <div class="row">
+          <div class="col-xs-12">
+            <a href="https://px.a8.net/svt/ejp?a8mat=2TGARG+4Z7IMY+3CJQ+65EOH" target="_blank" rel="nofollow"><img border="0" width="468" height="240" alt="" src="https://www24.a8.net/svt/bgt?aid=170401660301&wid=002&eno=01&mid=s00000015623001033000&mc=1"></a><img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=2TGARG+4Z7IMY+3CJQ+65EOH" alt="">
+          </div>
+        </div>
+        <p id="more" onclick="more()" value="0"><button class="btn btn-default btn-block btn-lg">もっと読む</button></p>
+      <% } %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <img src="/images/apps/Sophiliar-logo.png">
+    </div>
+  </div>
+</div>
+</main>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/bootstrap.min.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/http.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/protect.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/fixDate.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/iine_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/comment_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/read_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/want_or_not.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/send_comment_index.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/show_comments.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/bells.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/review_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/wantread_number.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/more_index.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/register_want.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/show_candidate.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/deny.js"></script>
+<script>
+function asyncPrepareComment(){for(var a=document.getElementsByClassName("comments"),b=0;b<a.length;b++){var c=$(a[b]).attr("value");asyncComment(a[b],c)}}$(function(){$("#search_user_focus").on("click",function(){document.user_form.searchuser.focus()}),$("#search_books_focus").on("click",function(){document.book_form.search.focus()})}),$(function(){asyncPrepareIineNumber()}),$(function(){asyncPrepareIineOrNot()}),$(function(){asyncPrepareReadOrNot()}),$(function(){asyncPrepareWantOrNot()}),$(function(){asyncPrepareNumOfReview()}),$(function(){asyncPrepareNumOfWantRead()}),$(function(){asyncBells()}),$(function(){asyncPrepareCommentNumber()}),$(document).on("submit",".post_comment",function(a){a.preventDefault();var b=this,c=$(b).find(".comment_text").val(),d=$(b).attr("value");asyncSendComment(b,c,d)}),$(function(){asyncPrepareComment()}),$(function(){checkURL()}),$(function(){$("a.disable").click(function(){return!1})}),$(function(){$("#user_keyword").on("keyup",function(){var a=$(this).val(),b=document.getElementById("pre_search_user");show_user_candidate(a,b)})}),$(function(){$("#books_keyword").on("keyup",function(){var a=$(this).val(),b=document.getElementById("pre_search_books");show_books_candidate(a,b)})});
+</script>
+</body>
+</html>
